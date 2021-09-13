@@ -39,8 +39,10 @@ sudo systemctl restart docker
 
 sudo apt-get update
 sudo apt-get install -y apt-transport-https ca-certificates curl
-sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
-echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+curl https://mirrors.aliyun.com/kubernetes/apt/doc/apt-key.gpg | sudo apt-key add - 
+cat <<EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list
+deb https://mirrors.aliyun.com/kubernetes/apt/ kubernetes-xenial main
+EOF
 
 sudo apt-get update
 sudo apt-get install -y kubeadm=1.20.0-00 kubectl=1.20.0-00 kubelet=1.20.0-00
@@ -48,3 +50,5 @@ sudo apt-mark hold kubelet kubeadm kubectl
 
 sudo swapoff -a
 sudo sed -i '/swap/s/^/#/' /etc/fstab
+
+sudo kubeadm init --apiserver-advertise-address `ip addr show ens160 | grep 'inet ' | cut -d' ' -f6 | cut -d / -f1` --image-repository registry.aliyuncs.com/google_containers --pod-network-cidr 10.244.0.0/16 --kubernetes-version v1.20.0
