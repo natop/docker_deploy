@@ -52,3 +52,9 @@ sudo swapoff -a
 sudo sed -i '/swap/s/^/#/' /etc/fstab
 
 sudo kubeadm init --apiserver-advertise-address `ip addr show ens160 | grep 'inet ' | cut -d' ' -f6 | cut -d / -f1` --image-repository registry.aliyuncs.com/google_containers --pod-network-cidr 10.244.0.0/16 --kubernetes-version v1.20.0
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+#kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+kubectl apply -f kube-flannel.yml
