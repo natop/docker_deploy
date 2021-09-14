@@ -45,16 +45,16 @@ deb https://mirrors.aliyun.com/kubernetes/apt/ kubernetes-xenial main
 EOF
 
 sudo apt-get update
-sudo apt-get install -y kubeadm=1.20.0-00 kubectl=1.20.0-00 kubelet=1.20.0-00
+sudo apt-get install -y kubeadm=1.19.2-00 kubectl=1.19.2-00 kubelet=1.19.2-00
 sudo apt-mark hold kubelet kubeadm kubectl
 
 sudo swapoff -a
 sudo sed -i '/swap/s/^/#/' /etc/fstab
 
-sudo kubeadm init --apiserver-advertise-address `ip addr show ens160 | grep 'inet ' | cut -d' ' -f6 | cut -d / -f1` --image-repository registry.aliyuncs.com/google_containers --pod-network-cidr 10.244.0.0/16 --kubernetes-version v1.20.0
+sudo kubeadm init --control-plane-endpoint="10.10.30.10:6443" --image-repository="registry.aliyuncs.com/google_containers" --upload-certs --apiserver-advertise-address="10.10.30.11" --pod-network-cidr="10.244.0.0/16" --kubernetes-version="v1.19.2"
 mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
-#kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
-kubectl apply -f kube-flannel.yml
+kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+
