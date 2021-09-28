@@ -1,9 +1,9 @@
 #!/bin/sh
 cat <<EOF | sudo tee /etc/hosts
-10.10.30.10 k8s-m1
-10.10.30.11 k8s-m2
-10.10.30.12 k8s-w1
-10.10.30.13 k8s-w2
+10.10.30.10 k8s-lb
+10.10.30.11 k8s-m1
+10.10.30.12 k8s-m2
+10.10.30.13 k8s-w1
 EOF
 
 curl https://mirrors.aliyun.com/kubernetes/apt/doc/apt-key.gpg | sudo apt-key add -
