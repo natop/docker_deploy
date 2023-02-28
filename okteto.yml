@@ -6,6 +6,5 @@ services:
     volumes：
       - trilium-data:/home/node/trilium-data
 
-
 volumes:
   trilium-data:
