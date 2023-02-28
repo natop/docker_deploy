@@ -5,6 +5,3 @@ services:
       - 8080:8080
     volumes：
       - trilium-data:/home/node/trilium-data
-  
-volumes:
-  trilium-data:
