@@ -1,0 +1,3 @@
+version: 3.6
+service:
+  image: zadam/trilium:latest
